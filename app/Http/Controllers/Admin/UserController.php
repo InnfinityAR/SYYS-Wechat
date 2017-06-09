@@ -22,7 +22,7 @@ class UserController extends FormController {
         }
         if ($search) {
             //分页追加参数
-            $datas = $models::orderBy('id', 'desc')->where('name', 'like', '%' . $input['search'] . '%')->where("name", "!=", "admin")->paginate(10);
+            $datas = $models::orderBy('id', 'desc')->where('name', 'like', '%' . $input['search'] . '%')->orWhere('tel', 'like', '%' . $input['search'] . '%')->where("name", "!=", "admin")->paginate(10);
             $datas->appends(['search' => $input['search']])->render();
         } else {
             $datas = $models::orderBy('id', 'desc')->where("name", "!=", "admin")->paginate(10);

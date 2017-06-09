@@ -9,7 +9,7 @@
             @if(session('user')->name=='admin')<a class="btn btn-primary deleteAll" >批量删除<i class="fa fa-trash-o"></i></a> @endif
         </div>
         <div style="padding-right:0" class="col-lg-6">
-            <label class="searchLabel">Search: <input type="text" aria-controls="editable-sample" value="{{$search}}" class="form-control medium search" id="search-input"></label>
+            <div class=" input-group" style="display: inline-block;width: 50%;float: right"><input type="text" style="display: inline;width: 80%" aria-controls="editable-sample" value="{{$search}}" placeholder="输入用户名或手机号查询" class="form-control medium search" id="search-input"><span class="input-group-btn"><button class="btn btn-default searchBtn"  type="button">搜索</button></span></div>
         </div>
     </div>
     <div class="panel-body">

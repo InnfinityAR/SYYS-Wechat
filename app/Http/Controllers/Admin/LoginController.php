@@ -22,14 +22,13 @@ class LoginController extends Controller
     public function login(Request $request) {
         
         if ($input = $request->except("_token")) {
-            $code = new \Code();
-            // 判断验证码是否正确
-            if(strtolower($input['code'])!= strtolower($code->get())){
-                $back["status"] = 0;
-                $back["msg"] = "验证码错误";
-                return $back;
-            }
-            
+//            $code = new \Code();
+//            // 判断验证码是否正确
+//            if(strtolower($input['code'])!= strtolower($code->get())){
+//                $back["status"] = 0;
+//                $back["msg"] = "验证码错误";
+//                return $back;
+//            }
             $user = User::where("name", $input["name"])->first();
             
             // 验证用户名或密码
@@ -42,6 +41,15 @@ class LoginController extends Controller
                 $back["msg"] = "该账号已被冻结，请联系网站管理员";
                 
             } else {
+                if($input["autoLogin"]){
+                    setcookie('name',$input["name"],time()+3600*24*3);
+                    setcookie('password',$input["password"],time()+3600*24*3);
+                    setcookie('autoLogin',true,time()+3600*24*3);
+                }else{
+                    setcookie('name',$input["name"],time()-3600*24*3);
+                    setcookie('password',$input["password"],time()-3600*24*3);
+                    setcookie('autoLogin',true,time()-3600*24*3);
+                }
                 $back["status"] = 1;
                 
                 // 存储用户信息

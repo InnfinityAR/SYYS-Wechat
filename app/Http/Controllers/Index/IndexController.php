@@ -176,46 +176,40 @@ class IndexController extends CommonController {
     // 保存用户信息
     public function storeClientInfo(Request $request) {
 
-        $input = $request->except("_token", "code");
-        $input["status"] = 1;
-        $input['create_time'] = time();
-        $map["house_area"] = $input["house_area"];
-        $map["floor"] = $input["floor"];
-        $map["house_addr"] = $input["house_addr"];
-
-        if ($client = Client::where($map)->first()) {       // 该用户已评估过
-            $back["status"] = false;
-            $back["msg"] = "您已评估过,请勿重复评估";
-        } else {
-            // 存入数据库
-            $res = Client::create($input);
-            if ($res) {
-                // 分配用户
-                $this->assignClient($res->id);
-                $back['status'] = true;
-                $back['msg'] = "评估成功";
-            } else {
-                $back["status"] = false;
-                $back["msg"] = "网络错误,评估失败！";
-            }
+        $input = $request->except("_token");
+        // 用户信息和贷款信息
+        $data["status"] = 1;
+        $data['create_time'] = time();
+        $data["name"] = $input["name"];
+        $data["sex"] = $input["sex"];
+        $data["tel"] = $input["tel"];
+        $data["loan_price"] = $input["loan_price"];
+        $data["loan_type"] = $input["loan_type"];
+        $data["repayment"] = $input["repayment"];
+        $data["loan_time"] = $input["loan_time"];
+        
+        // 房屋信息
+        $house["addr"] = $input["house_addr"];
+        foreach ($house["addr"] as $key=>$addr){
+            $data["house_addr"] = $addr;
+            $data["plot"] = $input["plot"][$key];
+            $data["house_area"] = $input["house_area"][$key];
+            $data["floor"] = $input["floor"][$key];
+            $data["building_num"] = $input["building_num"][$key];
+            $data["unit"] = $input["unit"][$key];
+            $data["room_num"] = $input["room_num"][$key];
+            $data["house_type"] = $input["house_type"][$key];
+            $data["house_detail_type"] = $input["house_detail_type"][$key];
+            $data["house_source"] = $input["house_source"][$key];
+            Client::create($data);
         }
-
+        
+        $back['status'] = true;
+        $back['msg'] = "评估成功";
         return $back;
     }
     
-    public function assignClient($client_id) {
-        $user_ids = DB::table("role_user")->where("role_id", 3)->pluck("user_id");
-        // 获取提交数量最少的客户经理的id
-        foreach ($user_ids as $user_id) {
-            $map["user_id"] = $user_id;
-            $map["status"] = 1;
-            $client_num = Client::where($map)->count();
-            $data[] = array("user_id" => $user_id, "client_num" => $client_num);
-        }
-        $data = array_sort_recursive($data);
-        $assign_user_id = $data[0]['user_id'];
-        Client::where("id", $client_id)->update(["user_id"=>$assign_user_id]);
-    }
+    
 
 //    // 展示评估结果
 //    public function access($client_id) {

@@ -31,9 +31,11 @@
                 <div class="login-wrap">
                     <input type="text" class="form-control" name="name" placeholder="用户名" autofocus>
                     <input type="password" class="form-control" name="password" placeholder="密码长度6-20位">
-                    <input type="text" style="display: inline-block;width: 50%" class="form-control" name="code" placeholder="输入验证码">
+<!--                    <div style="float: right"><input type="checkbox" class="autoLogin checkbox-inline">记住密码</div>
+                    <div style="clear: both"></div>-->
+<!--                    <input type="text" style="display: inline-block;width: 50%" class="form-control" name="code" placeholder="输入验证码">
                     <a style="float: right;display: inline-block;margin-right: 10px;" onclick="javascript:;" ><img class="captcha_img" src="/{{config('app.admin_prefix')}}/captcha"></a>
-                    <a class="btn btn-lg btn-login btn-block submit">
+-->                 <a class="btn btn-lg btn-login btn-block submit">
                         <i class="fa fa-check"></i>
                     </a>
 
@@ -56,19 +58,22 @@
                             $(".submit").click(function () {
                                 var name = $("input[name='name']").val();
                                 var password = $("input[name='password']").val();
-                                var code = $("input[name='code']").val();
+                                
                                 if (name == '') {
                                     layer.tips("用户名不能为空", $("input[name='name']"));
                                 } else if (password.length < 6 || password.length > 20) {
                                     layer.tips("密码长度不符合要求", $("input[name='password']"));
-                                } else if(!code){
-                                    layer.tips("验证码不能为空", $("input[name='code']"));
                                 } else {
                                     var data = {};
                                     data["_token"] = "{{csrf_token()}}";
                                     data["name"] = name;
                                     data["password"] = password;
-                                    data["code"] = code;
+                                    if($(".autoLogin").is(":checked")){
+                                        data["autoLogin"] = true;
+                                    }else{
+                                        data["autoLogin"] = false;
+                                    }
+                                    
                                     $.ajax({
                                         type: "post",
                                         url: "/" + "{{config('app.admin_prefix')}}" + "/login",

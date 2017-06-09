@@ -13,7 +13,7 @@ class ClientController extends FormController {
     public function index(Request $request, $status = 0) {
         
         $search = request("search", $default = "");
-
+        $process = request("process", $default = 0);
         $user_ids = DB::table("role_user")->where("role_id", 3)->distinct("user_id")->pluck("user_id")->toArray();
         $users = User::whereIn("id", $user_ids)->get();
 
@@ -30,6 +30,10 @@ class ClientController extends FormController {
                     if ($status) {
                         $query->where("status", $status);
                     }
+                })->where(function($query)use($process){
+                    if ($process) {
+                        $query->where("process", $process);
+                    }
                 })->where(function($query)use($search) {
                     if ($search) {
                         $query->where("tel", "like", "%" . $search . "%")->orWhere("name","like", "%" . $search . "%");
@@ -41,7 +45,7 @@ class ClientController extends FormController {
                 })->orderBy("id", "desc")->paginate(10);
         $datas->appends(['search' => $search])->render();
 
-        return view("admin.client.index", compact("datas", "status", "search", "flag", "users"));
+        return view("admin.client.index", compact("datas", "status", "search", "flag", "users","process"));
     }
 
     // 添加备注
@@ -61,7 +65,6 @@ class ClientController extends FormController {
     // 房屋估价
     public function assess(Request $request) {
         $input = $request->except("_token");
-        $input["user_id"] = session("user")->id;
         $input["status"] = 2;
 
         $res = Client::where("id", $input["id"])->update($input);
@@ -94,7 +97,6 @@ class ClientController extends FormController {
     // ajax轮询获取最近的客户
     public function getNewClients() {
         $map["status"] = 1;
-        $map["user_id"] = session("user")->id;
         $count = Client::where($map)->count();
         
         $back["count"] = $count;
@@ -109,7 +111,7 @@ class ClientController extends FormController {
         // 分配
         if ($user_id) {
             $client_ids = $request->get("client_ids");
-            $res = Client::whereIn("id", $client_ids)->update(["user_id" => $user_id]);
+            $res = Client::whereIn("id", $client_ids)->update(["user_id" => $user_id,'status'=>4]);
             if ($res !== false) {
                 $back["status"] = true;
                 $back["msg"] = "分配成功";
@@ -124,27 +126,20 @@ class ClientController extends FormController {
         return $back;
     }
     
-    public function receiveSocketMsg($ip,$port) {
-        $sock = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
-        $ret = socket_bind($sock,$ip,$port);
-        do {
-            if (($msgsock = socket_accept($sock)) >= 0) {
-
-                
-                $buf = socket_read($msgsock,8192);
-                // socket_read ( resource $socket , int $length [, int $type = PHP_BINARY_READ ] )
-                // 第一个参数socket句柄，第二个参数读取长度
-
-                dump($buf);die;
-
-
-            }
-            //echo $buf;
-            socket_close($msgsock);
-
-        } while (true);
-
-        socket_close($sock);
+    public function changeProcess(Request $request) {
+        $id = $request->get("id");
+        $process = $request->get("process");
+        
+        $res = Client::where("id",$id)->update(["process"=>$process]);
+        if ($res !== false) {
+            $back["status"] = true;
+            $back["msg"] = "修改成功";
+        } else {
+            $back["status"] = false;
+            $back["msg"] = "修改失败";
+        }
+        return $back;
     }
+   
 
 }

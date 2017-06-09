@@ -450,9 +450,126 @@ function getStatus($status){
         case 3:
             $return = "已忽略";
             break;
+        
+        case 4:
+            $return = "已分配";
+            break;
 
         default:
             break;
     }
     return $return;
+}
+
+function getHouseType($type){
+    switch ($type){
+        case 1:
+            return "住宅";
+            break;
+        
+        case 2:
+            return "别墅";
+            break;
+        
+        case 3:
+            return "公寓";
+            break;
+        
+        case 4:
+            return "商业";
+            break;
+        
+        case 5:
+            return "办公";
+            break;
+        
+        default:
+            break;
+    }
+}
+
+function getHouseSource($source){
+    switch ($source){
+        case 1:
+            return "买受";
+            break;
+        
+        case 2:
+            return "赠予";
+            break;
+        
+        case 3:
+            return "法拍";
+            break;
+        
+        case 4:
+            return "转让";
+            break;
+        
+        default:
+            break;
+    }
+}
+
+function getRepayment($repayment){
+    switch ($repayment){
+        case 1:
+            return "买受";
+            break;
+        
+        case 2:
+            return "赠予";
+            break;
+        
+        case 3:
+            return "法拍";
+            break;
+        
+        case 4:
+            return "转让";
+            break;
+        
+        default:
+            break;
+    }
+}
+
+function getProcess($process){
+    switch ($process){
+        case 1:
+            return "初始进度";
+            break;
+        
+        case 2:
+            return "已拒单";
+            break;
+        
+        case 3:
+            return "已成交";
+            break;
+        
+        case 4:
+            return "已派单";
+            break;
+        
+        case 5:
+            return "已签约";
+            break;
+        
+        case 6:
+            return "额度不符";
+            break;
+        
+        case 7:
+            return "已在其他地方办理";
+            break;
+        
+        case 8:
+            return "暂时不需要";
+            break;
+        
+        default:
+            return "初始进度";
+            break;
+    }
 }

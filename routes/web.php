@@ -41,7 +41,9 @@ Route::group(["namespace" => "Admin", "prefix" => config("app.admin_prefix"), "m
     Route::resource("role", "RoleController");                                                                  // 角色管理
     Route::resource("node", "NodeController");                                                                  // 权限管理
     Route::get("client/status/{id}", "ClientController@index");                                                 // 客户列表
-    Route::get("client/{id}/changeStatus", "ClientController@changeStatus")->where("id","[0-9]+");// 更改客户状态
+    Route::get("client/process/{process}", "ClientController@index");                                                 // 客户列表
+    Route::get("client/{id}/changeStatus", "ClientController@changeStatus")->where("id","[0-9]+");          // 更改客户状态
+    Route::any("client/changeProcess","ClientController@changeProcess");                                        // 更改客户进度
     Route::post("client/remark", "ClientController@remark");                                                    // 添加备注
     Route::post("client/assess", "ClientController@assess");                                                    // 评估
     Route::get("client/getNewClients", "ClientController@getNewClients");                                       // 获取新客户

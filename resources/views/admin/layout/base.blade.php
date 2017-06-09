@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="_token" content="{{ csrf_token() }}"/>
 
-        <title>南京微贷后台</title>
+        <title>苏燕云商后台管理系统</title>
         <!--common-->
         <link href="{{asset('resources/style/admin/css/style.css')}}" rel="stylesheet">
         <link href="{{asset('resources/style/admin/css/style-responsive.css')}}" rel="stylesheet">

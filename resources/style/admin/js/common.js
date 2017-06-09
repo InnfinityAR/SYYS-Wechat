@@ -120,14 +120,25 @@ $(function () {
             }
         });
     });
+    
+    $(".searchBtn").click(function(){
+        var search = $("#search-input").val();
+        location.href = "/"+admin_prefix+"/" + controller + "?search=" + search;
+    })
 
     // 全选
     $(".checkAll").click(function () {
-        if ($(this).is(":checked")) {
-            $(".checkAll").parents(".table").find("tbody").find(".check-input").find("input").prop("checked", "checked");
-        } else {
-            $(".checkAll").parents(".table").find("tbody").find(".check-input").find("input").removeAttr("checked");
-        }
+        var checkbox = $(".checkAll").parents(".table").find("tbody").find(".check-input").find("input");
+        $.each(checkbox,function(k,v){
+            if(!$(this).is(":disabled")){
+                if($(this).is(":checked")){
+                    $(this).prop("checked","");
+                }else{
+                    $(this).prop("checked","checked");
+                }
+            }
+        })
+        
     });
 
     //　批量删除

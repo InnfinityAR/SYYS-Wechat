@@ -1,5 +1,5 @@
 <!-- left side start-->
-<div class="left-side sticky-left-side">
+<div class="left-side sticky-left-side" style="background-color: #524f4f;">
 
     <!--logo and iconic logo start-->
     <div class="logo" style="background-color: #fff">

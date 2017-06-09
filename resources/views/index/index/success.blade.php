@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
-        <title>南京贷房屋抵押贷快速申请平台</title>
+        <title>苏燕云商房产抵押平台</title>
         <link rel="stylesheet" href="/resources/static/bootstrap/bootstrap.css"/>
         <link rel="stylesheet" href="/resources/static/bootcomplete/dist/bootcomplete.css"/>
         <link rel="stylesheet" href="/resources/style/index/css/index.css"/>

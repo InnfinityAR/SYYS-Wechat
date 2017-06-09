@@ -3,12 +3,8 @@
     padding: 0;
     color: #5e5b5b;
 }
-html,body{
-    height: 100%;
-}
 .wrap{
-    height: 95%;
-    overflow-y: scroll;
+    height: 90%;
 }
 .logo{
     margin: 3% 0 5% 5%;
@@ -67,6 +63,7 @@ html,body{
     bottom: 0;
     left: 5%;
     margin-top: 35px;
+    margin-bottom: 0;
 }
 .form .assess{
     
@@ -90,6 +87,16 @@ html,body{
 .formP{
     width: 70%;
     display: inline-block;
+}
+.moreBtn{
+    display: block;
+    width: 30%;
+    border:1px #999 dashed;
+    height: 30px;
+    margin: auto;
+    text-align: center;
+    line-height: 30px;
+    margin-bottom: 50px;
 }
 
 /* * 城市页 * */
